@@ -4,15 +4,15 @@ package com.pzk.community.dto;
  * gitHubUser对象 获取gitHub 的user
  */
 public class GitHubUser {
-    private String id;
+    private Integer id;
     private String name;
     private String bio;
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -30,5 +30,14 @@ public class GitHubUser {
 
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    @Override
+    public String toString() {
+        return "GitHubUser{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", bio='" + bio + '\'' +
+                '}';
     }
 }
