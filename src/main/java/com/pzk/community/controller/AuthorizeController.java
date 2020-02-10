@@ -11,7 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 /**
@@ -37,7 +39,7 @@ public class AuthorizeController {
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code")String code,
                            @RequestParam(name = "state")String state,
-                           HttpServletRequest request){
+                           HttpServletResponse response){
 
         AccessTokenDto accessTokenDto = new AccessTokenDto();
         accessTokenDto.setCode(code);
@@ -47,18 +49,20 @@ public class AuthorizeController {
         accessTokenDto.setState(state);
         String accessToken = gitHubProvider.getAccessToken(accessTokenDto);
         GitHubUser gitHubUser = gitHubProvider.getUser(accessToken);
-        System.out.println(gitHubUser.getName());
+//        System.out.println(gitHubUser.getName());
         //判断是否登陆成功
         if(gitHubUser != null){
             //登陆成功保存到数据库
             User user = new User();
-            user.setToken(UUID.randomUUID().toString());
+            String token = UUID.randomUUID().toString();
+            user.setToken(token);
             user.setAccountId(String.valueOf(gitHubUser.getId()));
             user.setName(gitHubUser.getName());
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
             userMapper.save(user);
-            request.getSession().setAttribute("gitHubUser", gitHubUser);
+
+            response.addCookie(new Cookie("token",token));
             //登陆成功 重定向到首页 url路径
             return "redirect:/";
         }else{

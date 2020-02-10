@@ -3,11 +3,14 @@ package com.pzk.community.mapper;
 import com.pzk.community.model.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Mapper
+@Repository
 public interface IUserMapper {
 
     @Select(value={"select * from user"})
@@ -15,4 +18,7 @@ public interface IUserMapper {
 
     @Insert("insert into user values(null,#{accountId},#{name},#{token},#{gmtCreate},#{gmtModified})")
     void save(User user);
+
+    @Select("select * from user where token=#{token}")
+    User findByToken(@Param("token") String token);
 }
