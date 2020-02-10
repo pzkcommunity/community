@@ -6,6 +6,9 @@ package com.pzk.community.dto;
 public class GitHubUser {
     private Integer id;
     private String name;
+    /**
+     * 个性描述
+     */
     private String bio;
 
     public Integer getId() {
