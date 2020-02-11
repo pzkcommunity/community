@@ -16,7 +16,7 @@ public interface IUserMapper {
     @Select(value={"select * from user"})
     List<User> findAll();
 
-    @Insert("insert into user values(null,#{accountId},#{name},#{token},#{gmtCreate},#{gmtModified})")
+    @Insert("insert into user values(null,#{account_id},#{name},#{token},#{gmt_create},#{gmt_modified},#{bio},#{avatar_url})")
     void save(User user);
 
     @Select("select * from user where token=#{token}")

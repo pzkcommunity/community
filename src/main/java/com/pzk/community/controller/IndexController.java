@@ -21,7 +21,7 @@ public class IndexController {
     public String index(HttpServletRequest request){
         //取出cookie 并去数据库中查找 user
         Cookie[] cookies = request.getCookies();
-        if(cookies != null){
+        if(cookies != null && cookies.length != 0){
             for (Cookie cookie : cookies) {
                 String name = cookie.getName();
                 if ("token".equals(name)){
