@@ -40,6 +40,7 @@ public class PublishController {
             Model model
         ){
 
+        //只能在publish页面可以取到
         model.addAttribute("title",title);
         model.addAttribute("description",description);
         model.addAttribute("tag",tag);
@@ -88,8 +89,8 @@ public class PublishController {
         question.setDescription(description);
         question.setTag(tag);
         question.setCreator(user.getId());
-        question.setGmtCreate(user.getGmt_create());
-        question.setGmtModified(user.getGmt_modified());
+        question.setGmtCreate(user.getGmtCreate());
+        question.setGmtModified(user.getGmtModified());
         iQuestionMapper.saveQuestion(question);
 
         return "redirect:/";

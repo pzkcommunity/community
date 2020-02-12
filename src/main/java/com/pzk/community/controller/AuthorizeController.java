@@ -56,12 +56,12 @@ public class AuthorizeController {
             User user = new User();
             String token = UUID.randomUUID().toString();
             user.setToken(token);
-            user.setAccount_id(String.valueOf(gitHubUser.getId()));
+            user.setAccountId(String.valueOf(gitHubUser.getId()));
             user.setName(gitHubUser.getName());
-            user.setGmt_create(System.currentTimeMillis());
-            user.setGmt_modified(user.getGmt_create());
+            user.setGmtCreate(System.currentTimeMillis());
+            user.setGmtModified(user.getGmtCreate());
             user.setBio(gitHubUser.getBio());
-            user.setAvatar_url(gitHubUser.getAvatar_url());
+            user.setAvatarUrl(gitHubUser.getAvatar_url());
             userMapper.save(user);
 
             response.addCookie(new Cookie("token",token));

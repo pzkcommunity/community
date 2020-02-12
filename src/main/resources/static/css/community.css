@@ -9,3 +9,12 @@ body{
     float: right;
     margin: 15px;
 }
+.img-head{
+    height: 38px;
+    width: 38px;
+}
+.text-comment{
+    font-size: 12px;
+    font-weight: normal;
+    color: #999;
+}
