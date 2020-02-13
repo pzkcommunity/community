@@ -1,9 +1,8 @@
 package com.pzk.community.controller;
 
 import com.pzk.community.mapper.IQuestionMapper;
-import com.pzk.community.mapper.IUserMapper;
-import com.pzk.community.model.Question;
-import com.pzk.community.model.User;
+import com.pzk.community.domain.Question;
+import com.pzk.community.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -22,9 +20,6 @@ public class PublishController {
 
     @Autowired
     private IQuestionMapper iQuestionMapper;
-
-    @Autowired
-    private IUserMapper iUserMapper;
 
     @GetMapping("/publish")
     public String publish(){
@@ -59,24 +54,8 @@ public class PublishController {
             return "publish";
         }
 
+        User user = (User) request.getSession().getAttribute("user");
 
-        User user = null;
-        Cookie[] cookies = request.getCookies();
-        if(cookies != null && cookies.length != 0){
-            for (Cookie cookie : cookies) {
-                String name = cookie.getName();
-                if ("token".equals(name)){
-                    String token = cookie.getValue();
-                     user = iUserMapper.findByToken(token);
-                    System.out.println(user);
-                    if(user != null){
-                        //为了让前端判断 显示登录 还是 我
-                        request.getSession().setAttribute("user",user);
-                    }
-                    break;
-                }
-            }
-        }
         //如果user为空 提示登录
         if(user == null){
             model.addAttribute("error","用户未登录");

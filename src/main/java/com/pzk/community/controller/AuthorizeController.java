@@ -3,7 +3,7 @@ package com.pzk.community.controller;
 import com.pzk.community.dto.AccessTokenDto;
 import com.pzk.community.dto.GitHubUser;
 import com.pzk.community.mapper.IUserMapper;
-import com.pzk.community.model.User;
+import com.pzk.community.domain.User;
 import com.pzk.community.provider.GitHubProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 

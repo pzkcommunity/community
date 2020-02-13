@@ -1,6 +1,5 @@
-package com.pzk.community.model;
+package com.pzk.community.domain;
 
-import com.pzk.community.mapper.IQuestionMapper;
 import lombok.Data;
 
 import java.io.Serializable;

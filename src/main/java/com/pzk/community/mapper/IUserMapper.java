@@ -1,8 +1,7 @@
 package com.pzk.community.mapper;
 
-import com.pzk.community.model.User;
+import com.pzk.community.domain.User;
 import org.apache.ibatis.annotations.*;
-import org.apache.ibatis.mapping.FetchType;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

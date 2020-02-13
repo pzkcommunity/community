@@ -18,3 +18,14 @@ body{
     font-weight: normal;
     color: #999;
 }
+
+/*个人资料右边 列表的外边距*/
+.profile .section{
+    margin:15px;
+}
+
+/*question中的编辑*/
+.community-menu{
+    font-size: 13px;
+    color: #999;
+}

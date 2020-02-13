@@ -1,6 +1,6 @@
 package com.pzk.community.dto;
 
-import com.pzk.community.model.User;
+import com.pzk.community.domain.User;
 import lombok.Data;
 
 /**

@@ -1,4 +1,4 @@
-package com.pzk.community.model;
+package com.pzk.community.domain;
 
 import lombok.Data;
 
