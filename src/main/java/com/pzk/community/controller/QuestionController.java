@@ -1,7 +1,6 @@
 package com.pzk.community.controller;
 
 import com.pzk.community.dto.QuestionDto;
-import com.pzk.community.mapper.IQuestionMapper;
 import com.pzk.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +18,7 @@ public class QuestionController {
     public String question(@PathVariable("id") Integer id,
                            Model model){
 
-        QuestionDto questionDto = questionService.getId(id);
+        QuestionDto questionDto = questionService.getById(id);
 
         model.addAttribute("question",questionDto);
         return "question";

@@ -1,7 +1,7 @@
 package com.pzk.community.controller;
 
 import com.pzk.community.dto.PaginationDto;
-import com.pzk.community.domain.User;
+import com.pzk.community.model.User;
 import com.pzk.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

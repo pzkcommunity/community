@@ -1,7 +1,8 @@
 package com.pzk.community.interceptor;
 
-import com.pzk.community.mapper.IUserMapper;
-import com.pzk.community.domain.User;
+import com.pzk.community.mapper.UserMapper;
+import com.pzk.community.model.User;
+import com.pzk.community.model.UserExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -10,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 自定义拦截器
@@ -18,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 public class SessionInterceptor implements HandlerInterceptor {
 
     @Autowired
-    private IUserMapper iUserMapper;
+    private UserMapper userMapper;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -30,10 +32,13 @@ public class SessionInterceptor implements HandlerInterceptor {
                 String name = cookie.getName();
                 if ("token".equals(name)){
                     String token = cookie.getValue();
-                    User user = iUserMapper.findByToken(token);
-                    if(user != null){
+                    UserExample example = new UserExample();
+                    example.createCriteria()
+                            .andTokenEqualTo(token);
+                    List<User> user = userMapper.selectByExample(example);
+                    if(user != null &&user.size() != 0){
                         //为了让前端判断 显示登录 还是 我
-                        request.getSession().setAttribute("user",user);
+                        request.getSession().setAttribute("user",user.get(0));
                     }
                     break;
                 }

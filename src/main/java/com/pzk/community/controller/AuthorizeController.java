@@ -2,9 +2,10 @@ package com.pzk.community.controller;
 
 import com.pzk.community.dto.AccessTokenDto;
 import com.pzk.community.dto.GitHubUser;
-import com.pzk.community.mapper.IUserMapper;
-import com.pzk.community.domain.User;
+import com.pzk.community.mapper.UserMapper;
+import com.pzk.community.model.User;
 import com.pzk.community.provider.GitHubProvider;
+import com.pzk.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
@@ -33,7 +35,10 @@ public class AuthorizeController {
     private String redirectUri;
 
     @Autowired
-    private IUserMapper userMapper;
+    private UserMapper userMapper;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code")String code,
@@ -61,7 +66,8 @@ public class AuthorizeController {
             user.setGmtModified(user.getGmtCreate());
             user.setBio(gitHubUser.getBio());
             user.setAvatarUrl(gitHubUser.getAvatar_url());
-            userMapper.save(user);
+            //userService 中判断 用户是否存在 插入或更新
+            userService.saveOrCreate(user);
 
             response.addCookie(new Cookie("token",token));
             //登陆成功 重定向到首页 url路径
@@ -70,5 +76,21 @@ public class AuthorizeController {
             //登陆失败
             return "redirect:/";
         }
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request,
+                         HttpServletResponse response){
+        Cookie[] cookies = request.getCookies();
+        if(cookies != null){
+            //覆盖 移除 k为 token 的cookie
+            Cookie token = new Cookie("token",null);
+            token.setMaxAge(0);
+            response.addCookie(token);
+
+            //移除session
+            request.getSession().removeAttribute("user");
+        }
+        return "redirect:/";
     }
 }

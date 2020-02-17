@@ -31,7 +31,7 @@
                         <span th:text="${question.description}"></span><br>
                         <span class="text-comment" th:value="${question.commentCount}">个评论 <span
                                 th:value="${question.viewCount}">次浏览</span> <span
-                                th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd HH:mm:ss')}"> </span>
+                                th:text="${#dates.format(question.gmtModified,'yyyy-MM-dd HH:mm:ss')}"> </span>
                     </span>
                     </div>
                 </div>
