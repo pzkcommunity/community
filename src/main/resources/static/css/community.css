@@ -32,3 +32,43 @@ body{
 .jumbotron{
     margin: 60px;
 }
+.name-middle{
+    padding:10px;
+}
+.name-middle-2{
+    padding:5px 15px;
+}
+.comment{
+    margin: 10px 0;<!--10px 0 10px 0-->
+}
+.community-like{
+    float:right;
+    color: #999;
+}
+.like{
+    margin:5px;
+}
+
+<!--鼠标悬浮变成小手 -->
+.community-like .margin{
+    margin:5px;
+    cursor: pointer;
+}
+/*增加悬浮效果*/
+.community-like .margin:hover{
+    color: #499ef3;
+    cursor: pointer;
+}
+.community-replies{
+    margin-top:55px ;
+}
+.community-hr{
+    background-color: #000000;
+}
+.community-title{
+    margin-top:35px;
+}
+
+
+
+

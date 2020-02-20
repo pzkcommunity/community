@@ -36,7 +36,7 @@ public class PublishController {
             @RequestParam(value = "title") String title,
             @RequestParam("description") String description,
             @RequestParam("tag") String tag,
-            @RequestParam("id") Integer id,
+            @RequestParam("id") Long id,
             HttpServletRequest request,
             Model model
         ){
@@ -74,6 +74,9 @@ public class PublishController {
         question.setDescription(description);
         question.setTag(tag);
         question.setCreator(user.getId());
+        question.setViewCount(0);
+        question.setCommentCount(0);
+        question.setLikeCount(0);
         question.setGmtCreate(System.currentTimeMillis());
         question.setGmtModified(System.currentTimeMillis());
         question.setId(id);
@@ -84,7 +87,7 @@ public class PublishController {
 
     //编辑
     @GetMapping("/publish/{id}")
-    public String edit(@PathVariable("id")Integer id,
+    public String edit(@PathVariable("id")Long id,
                        Model model){
         Question question = questionMapper.selectByPrimaryKey(id);
         //回显到页面

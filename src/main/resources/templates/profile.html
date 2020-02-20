@@ -25,12 +25,14 @@
                     </div>
                     <div class="media-body">
                         <h4 class="media-heading" th:text="${question.title}"></h4>
-                        <span th:text="${question.description}"></span><br>
-                        <span class="text-comment" th:value="${question.commentCount}">个评论 <span th:value="${question.viewCount}">次浏览</span> <span th:text="${#dates.format(question.gmtModified,'yyyy-MM-dd HH:mm:ss')}"> </span>
+                        <span th:inline="text">[[${question.description}]]</span><br>
+                        <span class="text-comment" th:inline="text">[[${question.commentCount}]]个评论 <span
+                                th:inline="text">[[${question.viewCount}]]次浏览</span> <span
+                                th:text="${#dates.format(question.gmtModified,'yyyy-MM-dd HH:mm:ss')}"> </span>
                     </span>
                     </div>
                 </div>
-                <br>
+                <br><br>
             </div>
             <nav aria-label="Page navigation">
                 <ul class="pagination">

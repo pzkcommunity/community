@@ -3,7 +3,7 @@ package com.pzk.community.service;
 import com.pzk.community.dto.PaginationDto;
 import com.pzk.community.dto.QuestionDto;
 import com.pzk.community.exception.CustomizeErrorCode;
-import com.pzk.community.exception.CustomizeExceptiion;
+import com.pzk.community.exception.CustomizeException;
 import com.pzk.community.mapper.QuestionMapper;
 import com.pzk.community.mapper.UserMapper;
 import com.pzk.community.model.Question;
@@ -70,7 +70,7 @@ public class QuestionService {
      * @param size
      * @return
      */
-    public PaginationDto list(Integer userId, Integer page, Integer size) {
+    public PaginationDto list(Long userId, Integer page, Integer size) {
 
         //每页从那条数据开始  (i-1)*5
         Integer offset = (page-1)*size;
@@ -108,12 +108,12 @@ public class QuestionService {
      * @param id
      * @return
      */
-    public QuestionDto getById(Integer id) {
+    public QuestionDto getById(Long id) {
         
         Question question = questionMapper.selectByPrimaryKey(id);
         //如果question 不存在抛出异常
         if(question == null){
-            throw new CustomizeExceptiion(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
         }
         QuestionDto questionDto = new QuestionDto();
 
@@ -129,7 +129,7 @@ public class QuestionService {
     public void saveOrUpdate(Question question) {
 
         //如果 是第一次发布则 id为空，如果是修改 则主键id肯定不为空
-        Integer id = question.getId();
+        Long id = question.getId();
         //判断是否为空
         if(id == null){
             //保存
@@ -147,8 +147,22 @@ public class QuestionService {
                     .andIdEqualTo(question.getId());
             int i = questionMapper.updateByExampleSelective(updateQuestion, example);
             if(i != 1){
-                throw new CustomizeExceptiion(CustomizeErrorCode.QUESTION_NOT_FOUND);
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
         }
+    }
+
+    /**
+     * 评论数
+     * @param id
+     */
+    public void incView(Long id) {
+
+        //每次都传递 一个 1 表示每次 都+1 viewCount = viewCount+1
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+
+        questionMapper.incView(question);
     }
 }

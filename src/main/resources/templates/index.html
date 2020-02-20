@@ -9,6 +9,15 @@
     <script src="js/jquery-3.21.min.js" type="application/javascript"></script>
     <script src="js/bootstrap.js" type="application/javascript"></script>
 </head>
+<script>
+var closable = window.localStorage.getItem("closable");
+window.onload = function () {
+    if (closable == "true"){
+    window.close();
+    window.localStorage.removeItem("closable");
+    }
+}
+</script>
 <body>
 <div th:insert="~{navigation :: nav}"></div>
 <div class="container-fluid main">
@@ -28,14 +37,14 @@
                         <h4 class="media-heading">
                             <a th:href="'/question/'+${question.id}" th:text="${question.title}"></a>
                         </h4>
-                        <span th:text="${question.description}"></span><br>
-                        <span class="text-comment" th:value="${question.commentCount}">个评论 <span
-                                th:value="${question.viewCount}">次浏览</span> <span
+                        <span th:inline="text">[[${question.description}]]</span>
+                        <span class="text-comment" th:inline="text">[[${question.commentCount}]]个评论 <span
+                                th:inline="text">[[${question.viewCount}]]次浏览</span> <span
                                 th:text="${#dates.format(question.gmtModified,'yyyy-MM-dd HH:mm:ss')}"> </span>
                     </span>
                     </div>
                 </div>
-                <br>
+                <br><br>
             </div>
             <nav aria-label="Page navigation">
                 <ul class="pagination">
