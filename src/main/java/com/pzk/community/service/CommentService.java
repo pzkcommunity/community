@@ -7,7 +7,6 @@ import com.pzk.community.exception.CustomizeException;
 import com.pzk.community.mapper.CommentMapper;
 import com.pzk.community.mapper.QuestionMapper;
 import com.pzk.community.model.Comment;
-import com.pzk.community.model.CommentExample;
 import com.pzk.community.model.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +40,11 @@ public class CommentService {
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
             commentMapper.insert(comment);
+            //更新 一级评论的回复数
+            Comment questionComment = new Comment();
+            questionComment.setId(comment.getParentId());
+            questionComment.setCommentCount(1);
+            commentMapper.incCommentCount(questionComment);
         } else{
             //回复问题
             Question question = questionMapper.selectByPrimaryKey(comment.getParentId());
@@ -53,9 +57,16 @@ public class CommentService {
         }
     }
 
-    public List<CommentUserDto> listByQuestionId(Long id) {
+    /**
+     *
+     * @param id     parentId
+     * @param type   parentType  问题的回复(1) 评论的回复(2)
+     * @return
+     */
+    public List<CommentUserDto> findByParentIdAndType(Long id, Integer type) {
         //根据问题的id查找出 对应的回复
-        List<CommentUserDto> commentUserDtos = commentMapper.selectByParentIdAndType(id,CommentTypeEnum.Question.getType());
+        List<CommentUserDto> commentUserDtos = commentMapper.selectByParentIdAndType(id,
+                type);
 
 
         return commentUserDtos;

@@ -1,10 +1,12 @@
 package com.pzk.community.mapper;
 
+import com.pzk.community.dto.QuestionDto;
 import com.pzk.community.model.Comment;
 import com.pzk.community.model.Question;
 import com.pzk.community.model.QuestionExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Repository;
@@ -140,13 +142,27 @@ public interface QuestionMapper {
     int updateByPrimaryKey(Question record);
 
     /**
-     * 根据id 评论数+1
+     * 根据id 浏览数+1
      * @param record
      * @return
      */
     @Update("update question set view_count=view_count+#{viewCount} where id=#{id}")
     int incView(Question record);
 
+    /**
+     * 评论数
+     * @param question
+     * @return
+     */
     @Update("update question set comment_count=comment_count+#{commentCount} where id=#{id}")
     int incComment(Question question);
+
+    /**
+     *
+     * @param question
+     * @return
+     */
+    @Select("select * from question where id!=#{id} and tag regexp #{tag}")
+    List<Question> releatedQuestionByTag(Question question);
+
 }

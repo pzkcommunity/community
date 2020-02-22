@@ -2,6 +2,8 @@ package com.pzk.community.controller;
 
 import com.pzk.community.dto.CommentUserDto;
 import com.pzk.community.dto.QuestionDto;
+import com.pzk.community.enums.CommentTypeEnum;
+import com.pzk.community.model.Question;
 import com.pzk.community.service.CommentService;
 import com.pzk.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +28,12 @@ public class QuestionController {
                            Model model){
 
         QuestionDto questionDto = questionService.getById(id);
+        List<Question> releatedQuestions = questionService.releatedQuestionByTag(questionDto);
 
-        List<CommentUserDto> commentUserDtoList = commentService.listByQuestionId(id);
+        List<CommentUserDto> commentUserDtoList = commentService.findByParentIdAndType(id,
+                CommentTypeEnum.Question.getType());
         questionService.incView(id);
+        model.addAttribute("releatedQuestions",releatedQuestions);
         model.addAttribute("question",questionDto);
         model.addAttribute("commentUserDtoList",commentUserDtoList);
         return "question";

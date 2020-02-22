@@ -1,10 +1,10 @@
 package com.pzk.community.controller;
 
 import com.pzk.community.dto.CommentDto;
+import com.pzk.community.dto.CommentUserDto;
 import com.pzk.community.dto.ResultDto;
+import com.pzk.community.enums.CommentTypeEnum;
 import com.pzk.community.exception.CustomizeErrorCode;
-import com.pzk.community.exception.CustomizeException;
-import com.pzk.community.mapper.CommentMapper;
 import com.pzk.community.model.Comment;
 import com.pzk.community.model.User;
 import com.pzk.community.service.CommentService;
@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 
 @Controller
@@ -21,6 +22,7 @@ public class CommentController {
 
     @Autowired
     private CommentService commentService;
+
 
     @ResponseBody
     @RequestMapping(value = "/comment",method = RequestMethod.POST)
@@ -38,7 +40,8 @@ public class CommentController {
         comment.setContent(commentDto.getContent());
         comment.setGmtCreate(System.currentTimeMillis());
         comment.setGmtModified(System.currentTimeMillis());
-        comment.setLikeCount(0L);
+        comment.setLikeCount(0);
+        comment.setCommentCount(0);
         comment.setType(commentDto.getType());
         comment.setParentId(commentDto.getParentId());
         comment.setCommentator(user.getId());
@@ -47,6 +50,16 @@ public class CommentController {
         commentService.insert(comment);
 
         return ResultDto.okOf();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/comment/{id}",method = RequestMethod.GET)
+    public ResultDto<List<CommentUserDto>> comment(@PathVariable("id")Long id){
+
+        List<CommentUserDto> commentUserDtoList = commentService.findByParentIdAndType(id, CommentTypeEnum.Comment.getType());
+
+
+        return ResultDto.okOf(commentUserDtoList);
     }
 
 }

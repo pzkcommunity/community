@@ -13,6 +13,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,10 @@ public class QuestionService {
         List<QuestionDto> list = new ArrayList<>();
 
         PaginationDto paginationDto = new PaginationDto();
-        List<Question> questions = questionMapper.selectByExampleWithRowbounds(new QuestionExample(),new RowBounds(offset,size));
+        QuestionExample example1 = new QuestionExample();
+        //将问题 按时间倒序展示 最新
+        example1.setOrderByClause("gmt_create desc");
+        List<Question> questions = questionMapper.selectByExampleWithRowbounds(example1,new RowBounds(offset,size));
             for (Question question : questions) {
                 User user = userMapper.selectByPrimaryKey(question.getCreator());
                 QuestionDto questionDto = new QuestionDto();
@@ -82,6 +86,8 @@ public class QuestionService {
         QuestionExample example = new QuestionExample();
         example.createCriteria()
                 .andCreatorEqualTo(userId);
+        //将问题 按时间倒序展示 最新
+        example.setOrderByClause("gmt_create desc");
         List<Question> questions = questionMapper.selectByExampleWithRowbounds(example,new RowBounds(offset,size));
         for (Question question : questions) {
             User user = userMapper.selectByPrimaryKey(question.getCreator());
@@ -164,5 +170,24 @@ public class QuestionService {
         question.setViewCount(1);
 
         questionMapper.incView(question);
+    }
+
+    /**
+     * 用正则 查出相与此问题关标签相关的 问题
+     * @param questionDto
+     * @return
+     */
+    public List<Question> releatedQuestionByTag(QuestionDto questionDto) {
+        if (StringUtils.isEmpty(questionDto)){
+            return new ArrayList<>();
+        }
+        //tag,tag  ->tag|tag
+        String regexTag = questionDto.getTag().replace("，", ",").replace(',', '|');
+        Question question = new Question();
+        question.setTag(regexTag);
+        question.setId(questionDto.getId());
+        List<Question> questions = questionMapper.releatedQuestionByTag(question);
+
+        return questions;
     }
 }

@@ -4,10 +4,14 @@ import com.pzk.community.exception.CustomizeErrorCode;
 import com.pzk.community.exception.CustomizeException;
 import lombok.Data;
 
+/**
+ * 返回错误信息类
+ */
 @Data
-public class ResultDto {
+public class ResultDto<T> {
     private Integer code;
     private String message;
+    private T data;
 
     public static ResultDto errorOf(Integer code,String message){
         ResultDto resultDto = new ResultDto();
@@ -32,6 +36,16 @@ public class ResultDto {
         resultDto.setMessage("请求成功！");
         return resultDto;
     }
+
+    //返回数据
+    public static <T> ResultDto okOf(T t){
+        ResultDto resultDto = new ResultDto();
+        resultDto.setCode(200);
+        resultDto.setMessage("请求成功！");
+        resultDto.setData(t);
+        return resultDto;
+    }
+
 
     public static ResultDto errorOf(CustomizeException e){
         return errorOf(e.getCode(),e.getMessage());

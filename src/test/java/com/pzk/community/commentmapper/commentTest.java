@@ -4,6 +4,7 @@ import com.pzk.community.CommunityApplication;
 import com.pzk.community.dto.CommentUserDto;
 import com.pzk.community.enums.CommentTypeEnum;
 import com.pzk.community.mapper.CommentMapper;
+import com.pzk.community.service.CommentService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +22,14 @@ public class commentTest {
 
     @Autowired
     private CommentMapper commentMapper;
+
+    @Autowired
+    private CommentService commentService;
     @Test
     public void test(){
-        List<CommentUserDto> commentUserDtos = commentMapper.selectByParentIdAndType(10l, CommentTypeEnum.Question.getType());
-        for (CommentUserDto commentUserDto : commentUserDtos) {
+        List<CommentUserDto> commentUserDtoList = commentService.findByParentIdAndType(26l, CommentTypeEnum.Comment.getType());
+
+        for (CommentUserDto commentUserDto : commentUserDtoList) {
             System.out.println(commentUserDto);
         }
     }
