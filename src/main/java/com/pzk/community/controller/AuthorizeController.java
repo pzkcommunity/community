@@ -6,6 +6,7 @@ import com.pzk.community.mapper.UserMapper;
 import com.pzk.community.model.User;
 import com.pzk.community.provider.GitHubProvider;
 import com.pzk.community.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ import java.util.UUID;
  * 获取返回的code和state
  */
 @Controller
+@Slf4j
 public class AuthorizeController {
 
     @Autowired
@@ -74,6 +76,7 @@ public class AuthorizeController {
             return "redirect:/";
         }else{
             //登陆失败
+            log.error("callback get error,{}",gitHubUser);
             return "redirect:/";
         }
     }

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.pzk.community.dto.AccessTokenDto;
 import com.pzk.community.dto.GitHubUser;
 
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.springframework.stereotype.Component;
 
