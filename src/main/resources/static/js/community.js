@@ -133,5 +133,28 @@ function CollapseComments(e) {
         }
 
     }
+}
 
+/**
+ * 选中标签 赋值到 input
+ * @param value
+ */
+function selectTag(e) {
+    var value = e.getAttribute("data-tag");
+    var previous = $("#tag").val();
+    //如果 不包含 才可以添加 该标签
+    if (previous.split(",").indexOf(value) == -1){
+        if (previous) {
+            $("#tag").val(previous+','+value);
+        } else{
+            $("#tag").val(value);
+        }
+    }
+}
+
+/**
+ * 点击展示标签库
+ */
+function showTag() {
+    $("#select-tag").show();
 }

@@ -3,6 +3,7 @@ package com.pzk.community.interceptor;
 import com.pzk.community.mapper.UserMapper;
 import com.pzk.community.model.User;
 import com.pzk.community.model.UserExample;
+import com.pzk.community.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -22,6 +23,9 @@ public class SessionInterceptor implements HandlerInterceptor {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private NotificationService notificationService;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
@@ -39,6 +43,8 @@ public class SessionInterceptor implements HandlerInterceptor {
                     if(user != null &&user.size() != 0){
                         //为了让前端判断 显示登录 还是 我
                         request.getSession().setAttribute("user",user.get(0));
+                        int unReadCount = notificationService.getUnReadCount(user.get(0).getId());
+                        request.getSession().setAttribute("unReadCount",unReadCount);
                     }
                     break;
                 }

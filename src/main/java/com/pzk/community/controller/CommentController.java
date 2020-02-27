@@ -8,9 +8,9 @@ import com.pzk.community.exception.CustomizeErrorCode;
 import com.pzk.community.model.Comment;
 import com.pzk.community.model.User;
 import com.pzk.community.service.CommentService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +33,7 @@ public class CommentController {
 //            ResultDto.errorOf(CustomizeErrorCode.NOT_LOGIN);
             return ResultDto.errorOf(CustomizeErrorCode.NOT_LOGIN);
         }
-        if (commentDto == null || StringUtils.isEmpty(commentDto.getContent())){
+        if (commentDto == null || StringUtils.isBlank(commentDto.getContent())){
             return ResultDto.errorOf(CustomizeErrorCode.CONTENT_NOT_EMPTY);
         }
         Comment comment = new Comment();
@@ -52,6 +52,11 @@ public class CommentController {
         return ResultDto.okOf();
     }
 
+    /**
+     * 二级评论
+     * @param id
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = "/comment/{id}",method = RequestMethod.GET)
     public ResultDto<List<CommentUserDto>> comment(@PathVariable("id")Long id){

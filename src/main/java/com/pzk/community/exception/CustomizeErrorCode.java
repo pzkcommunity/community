@@ -8,7 +8,9 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode{
     SYS_ERROR(2004,"服务过于繁忙，请稍后再试试！！"),
     TYPE_PARENT_WRONG(2005,"评论类型错误或不存在"),
     COMMENT_NOT_FOUND(2006,"评论不存在"),
-    CONTENT_NOT_EMPTY(2007,"输入内容不能为空！");
+    CONTENT_NOT_EMPTY(2007,"输入内容不能为空！"),
+    NOTIFICATION_QUESTION_NOT_FOUND(2008,"问题不翼而飞了！"),
+    FILE_UPLOAD_FAIL(2009,"图片上传失败");
 
     @Override
     public String getMessage() {

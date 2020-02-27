@@ -1,9 +1,11 @@
 package com.pzk.community.controller;
 
+import com.pzk.community.cache.TagCache;
 import com.pzk.community.mapper.QuestionMapper;
 import com.pzk.community.model.Question;
 import com.pzk.community.model.User;
 import com.pzk.community.service.QuestionService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +29,9 @@ public class PublishController {
     private QuestionService questionService;
 
     @GetMapping("/publish")
-    public String publish(){
+    public String publish(Model model){
+        //标签库
+        model.addAttribute("taglib", TagCache.get());
         return "publish";
     }
 
@@ -45,6 +49,8 @@ public class PublishController {
         model.addAttribute("title",title);
         model.addAttribute("description",description);
         model.addAttribute("tag",tag);
+        //标签库
+        model.addAttribute("taglib", TagCache.get());
 
 
         if(title == null || title ==""){
@@ -57,6 +63,12 @@ public class PublishController {
         }
         if(tag == null || tag ==""){
             model.addAttribute("error","标签不能为空");
+            return "publish";
+        }
+        //过滤出非法的标签
+        String invalidTags = TagCache.filterInvalid(tag);
+        if (StringUtils.isNotBlank(invalidTags)){
+            model.addAttribute("error","输入了非法标签"+invalidTags);
             return "publish";
         }
 
@@ -96,6 +108,8 @@ public class PublishController {
         model.addAttribute("description",question.getDescription());
         //把question的主键 唯一标识 传回
         model.addAttribute("id",question.getId());
+        //标签库
+        model.addAttribute("taglib", TagCache.get());
 
         return  "publish";
     }

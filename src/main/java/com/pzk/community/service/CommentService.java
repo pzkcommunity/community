@@ -2,11 +2,15 @@ package com.pzk.community.service;
 
 import com.pzk.community.dto.CommentUserDto;
 import com.pzk.community.enums.CommentTypeEnum;
+import com.pzk.community.enums.NotificationStatusEnum;
+import com.pzk.community.enums.NotificationTypeEnum;
 import com.pzk.community.exception.CustomizeErrorCode;
 import com.pzk.community.exception.CustomizeException;
 import com.pzk.community.mapper.CommentMapper;
+import com.pzk.community.mapper.NotificationMapper;
 import com.pzk.community.mapper.QuestionMapper;
 import com.pzk.community.model.Comment;
+import com.pzk.community.model.Notification;
 import com.pzk.community.model.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +27,10 @@ public class CommentService {
     @Autowired
     private QuestionMapper questionMapper;
 
+    @Autowired
+    private NotificationMapper notificationMapper;
+
+    //事务
     @Transactional
     public void insert(Comment comment) {
         if (comment.getParentId() == null || comment.getParentId() == 0){
@@ -45,6 +53,9 @@ public class CommentService {
             questionComment.setId(comment.getParentId());
             questionComment.setCommentCount(1);
             commentMapper.incCommentCount(questionComment);
+
+            //存储通知
+            saveNotify(comment, dbcomment.getCommentator(), NotificationTypeEnum.REPLY_COMMENT);
         } else{
             //回复问题
             Question question = questionMapper.selectByPrimaryKey(comment.getParentId());
@@ -54,7 +65,29 @@ public class CommentService {
             commentMapper.insert(comment);
             question.setCommentCount(1);
             questionMapper.incComment(question);
+
+            saveNotify(comment, question.getCreator(), NotificationTypeEnum.REPLY_QUESTION);
         }
+    }
+
+    /**
+     * 存储通知
+     * @param comment 评论
+     * @param receiver
+     * @param notifyType
+     */
+    private void saveNotify(Comment comment, Long receiver, NotificationTypeEnum notifyType) {
+        if(comment.getCommentator() == receiver){
+            return;
+        }
+        Notification notification = new Notification();
+        notification.setGmtCreate(comment.getGmtCreate());
+        notification.setNotifier(comment.getCommentator());
+        notification.setOuterid(comment.getParentId());
+        notification.setReceiver(receiver);
+        notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
+        notification.setType(notifyType.getType());
+        notificationMapper.insert(notification);
     }
 
     /**

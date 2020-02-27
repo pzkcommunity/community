@@ -7,9 +7,15 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="/css/community.css">
+    <link rel="stylesheet" href="/css/editormd.css">
+    <link rel="stylesheet" href="/css/editormd.preview.css">
+
     <script src="/js/jquery-3.21.min.js" type="application/javascript"></script>
     <script src="/js/bootstrap.js" type="application/javascript"></script>
     <script src="/js/moment.js" type="application/javascript"></script>
+    <script src="/js/editormd.min.js" type="application/javascript"></script>
+    <script src="/js/lib/marked.min.js" type="application/javascript"></script>
+    <script src="/js/lib/prettify.min.js" type="application/javascript"></script>
 </head>
 <body>
 <div th:insert="~{navigation :: nav}"></div>
@@ -27,7 +33,16 @@
             </span>
                 <!--描述-->
                 <hr>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${question.description}"></div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="question-view">
+                    <textarea style="display: none;" th:text="${question.description}"></textarea>
+                </div>
+                <script type="text/javascript">
+                    $(function () {
+                        var testView = editormd.markdownToHTML("question-view",{
+
+                        });
+                    });
+                </script>
 
                 <!--标签-->
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -121,6 +136,17 @@
                     </div>
                     <div class="media-body">
                         <h5 class="media-heading name-middle" th:text="${session.user.name}"></h5>
+                    </div>
+                </div>
+                <!--未登录用户-->
+                <div class="media" th:if="${session.user == null}">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object img-rounded img-head" src="/images/default-avatar.png">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h5 class="media-heading name-middle">匿名用户</h5>
                     </div>
                 </div>
                 <input type="hidden" id="question_id" th:value="${question.id}">

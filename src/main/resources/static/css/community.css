@@ -93,6 +93,14 @@ body{
 .community-wechat{
     width: 100%;
 }
-
+.tag-top{
+    margin: 10px;
+}
+.notice-color{
+    background-color: #ce1c1c;
+}
+.notice-style{
+    line-height: 40px;
+}
 
 

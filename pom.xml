@@ -104,6 +104,13 @@
             <version>3.9</version>
         </dependency>
 
+        <!--ucloud文件上传 javasdk方式-->
+        <dependency>
+            <groupId>cn.ucloud.ufile</groupId>
+            <artifactId>ufile-client-java</artifactId>
+            <version>2.4.1</version>
+        </dependency>
+
 
     </dependencies>
 
