@@ -102,7 +102,7 @@ function CollapseComments(e) {
                     var c='<div class="media">'+
                         '<div class="media-left">'+
                         '<a href="#">'+
-                        '<img class="media-object img-rounded img-head" src="/images/head.jpg">'+
+                        '<img class="media-object img-rounded img-head" src="'+level2data[index].user.avatarUrl+'">'+
                         '</a>'+
                         '</div>'+
                         '<div class="media-body">'+
