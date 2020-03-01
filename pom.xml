@@ -136,9 +136,9 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>5.2.4</version>
                 <configuration>
-                    <url>jdbc:mysql://localhost:3306/community?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=UTC</url>
+                    <url>jdbc:mysql://106.75.52.204:3306/community?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=UTC</url>
                     <user>root</user>
-                    <password>root123</password>
+                    <password>root</password>
                     <driver>com.mysql.jdbc.Driver</driver>
                     <table>flyway_schema_history</table>
                 </configuration>

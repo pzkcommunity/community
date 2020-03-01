@@ -11,9 +11,9 @@
     <context id="MYSQLTables" targetRuntime="MyBatis3">
         <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/community?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=UTC"
+                        connectionURL="jdbc:mysql://106.75.52.204:3306/community?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=UTC"
                         userId="root"
-                        password="root123">
+                        password="root">
         </jdbcConnection>
 
         <javaTypeResolver >
@@ -33,12 +33,12 @@
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 
-        <!--<table tableName="user" domainObjectName="User" >
+        <table tableName="user" domainObjectName="User" >
         </table>
         <table tableName="question" domainObjectName="Question" >
-        </table>-->
-        <!--<table tableName="comment" domainObjectName="Comment" >
-        </table>-->
+        </table>
+        <table tableName="comment" domainObjectName="Comment" >
+        </table>
         <table tableName="notification" domainObjectName="Notification" >
         </table>
 

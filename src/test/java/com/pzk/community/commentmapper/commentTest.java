@@ -33,4 +33,11 @@ public class commentTest {
             System.out.println(commentUserDto);
         }
     }
+
+    @Test
+    public void test2(){
+        String s = "我爱     你";
+        String s1 = s.replaceAll(" +", ",");
+        System.out.println(s1);
+    }
 }

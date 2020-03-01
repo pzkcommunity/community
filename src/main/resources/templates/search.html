@@ -25,7 +25,7 @@ window.onload = function () {
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <h2><span class="glyphicon glyphicon-list " aria-hidden="true"></span>发现</h2>
             <hr>
-            <div th:each="question : ${paginationDto.questionDtoList}">
+            <div th:each="question : ${bySearch.list}">
                 <div class="media">
                     <div class="media-left">
                         <a href="#">
@@ -37,7 +37,6 @@ window.onload = function () {
                         <h4 class="media-heading">
                             <a th:href="'/question/'+${question.id}" th:text="${question.title}"></a>
                         </h4>
-                        <span th:inline="text">[[${question.description}]]</span>
                         <span class="text-comment" th:inline="text">[[${question.commentCount}]]个评论 <span
                                 th:inline="text">[[${question.viewCount}]]次浏览</span> <span
                                 th:text="${#dates.format(question.gmtModified,'yyyy-MM-dd HH:mm:ss')}"> </span>
@@ -49,29 +48,29 @@ window.onload = function () {
             <nav aria-label="Page navigation">
                 <ul class="pagination">
                     <li>
-                        <a href="?page=1" aria-label="ShowFirst">
+                        <a th:href=" '/search?page=1' + '&search=' + ${search} " aria-label="ShowFirst">
                             <span aria-hidden="true">&lt;&lt;</span>
                         </a>
                     </li>
 
 
-                    <li th:if="${paginationDto.showPrevious}">
-                        <a th:href=" '/?page=' + ${paginationDto.page - 1}" aria-label="Previous">
+                    <li th:if="${bySearch.isHasPreviousPage()}">
+                        <a th:href=" '/search?page=' + ${bySearch.pageNum - 1} + '&search=' + ${search}" aria-label="Previous">
                             <span aria-hidden="true">&lt;</span>
                         </a>
                     </li>
 
-                    <li th:each="page : ${paginationDto.pages}" th:class="${paginationDto.page == page} ? 'active':''">
-                        <a th:href=" '/?page=' + ${page}" th:text="${page}"></a></li>
+                    <li th:each="page : ${bySearch.navigatepageNums}" th:class="${bySearch.pageNum == page} ? 'active':''">
+                        <a th:href=" '/search?page=' + ${page} + '&search=' + ${search}" th:text="${page}"></a></li>
 
-                    <li th:if="${paginationDto.showNext}">
-                        <a th:href=" '/?page=' + ${paginationDto.page + 1}" aria-label="Next">
+                    <li th:if="${bySearch.hasNextPage}">
+                        <a th:href=" '/search?page=' + ${bySearch.pageNum + 1} + '&search=' + ${search}" aria-label="Next">
                             <span aria-hidden="true">&gt;</span>
                         </a>
                     </li>
 
                     <li>
-                        <a th:href="'?page='+ ${paginationDto.totalPage}" aria-label="ShowEnd">
+                        <a th:href=" '/search?page=' + ${bySearch.pages} + '&search=' + ${search}" aria-label="ShowEnd">
                             <span aria-hidden="true">&gt;&gt;</span>
                         </a>
                     </li>
@@ -81,16 +80,6 @@ window.onload = function () {
 
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <h3>热点</h3>
-            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <h3>登录</h3><br>
-                <h5>须知：本网站目前仅支持使用github账号登录</h5>
-            </div>
-            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <h3>UCloud</h3>
-                <img src="/images/ucloud.png" class="img-thumbnail community-wechat">
-            </div>
         </div>
     </div>
 </div>

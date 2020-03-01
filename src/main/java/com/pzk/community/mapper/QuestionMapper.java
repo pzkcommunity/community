@@ -1,13 +1,12 @@
 package com.pzk.community.mapper;
 
 import com.pzk.community.dto.QuestionDto;
-import com.pzk.community.model.Comment;
 import com.pzk.community.model.Question;
 import com.pzk.community.model.QuestionExample;
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+
+import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.mapping.FetchType;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Repository;
 
@@ -164,5 +163,11 @@ public interface QuestionMapper {
      */
     @Select("select * from question where id!=#{id} and tag regexp #{tag}")
     List<Question> releatedQuestionByTag(Question question);
+
+    @Select("select * from question where title regexp #{search} order by gmt_create desc")
+    @Results(id="questionMap",value = {
+            @Result(property = "user",column = "creator",many = @Many(select="com.pzk.community.mapper.UserMapper.selectById",fetchType = FetchType.EAGER))
+    })
+    List<QuestionDto> findBySearch(String search);
 
 }

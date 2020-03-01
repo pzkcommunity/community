@@ -1,5 +1,5 @@
 create table user(
-  ID INTEGER primary key auto_increment,
+  ID bigint primary key auto_increment,
   ACCOUNT_ID VARCHAR(100),
   NAME VARCHAR(50),
   TOKEN VARCHAR(36),
