@@ -1,6 +1,6 @@
 create table question
 (
-  id bigint auto_increment
+  id bigint auto_increment primary key ,
 	title varchar(50),
 	description text ,
 	gmt_create bigint ,
@@ -9,7 +9,5 @@ create table question
 	comment_count int default 0 ,
 	view_count int default 0 ,
 	like_count int default 0 ,
-	tag varchar(256) ,
-	constraint question_pk
-		primary key (id)
+	tag varchar(255) ,
 );
