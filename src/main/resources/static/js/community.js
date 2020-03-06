@@ -48,8 +48,12 @@ function comment2target(target, type, content) {
                     var isAccepted = window.confirm(response.message);
                     //确认登录
                     if (isAccepted) {
+<<<<<<< HEAD
                        //打开地址
 
+=======
+                       //打开地址
+>>>>>>> 0eb30927c6fc3202108333f099e01d3c45fcf025
                         window.open("https://github.com/login/oauth/authorize?client_id=2f51337f46659460e903&redirect_uri=http://106.75.52.204/callback&scope=user&state=1");
                         localStorage.setItem("closable","true");
                     }

@@ -36,8 +36,11 @@ public class commentTest {
 
     @Test
     public void test2(){
-        String s = "我爱     你";
-        String s1 = s.replaceAll(" +", ",");
-        System.out.println(s1);
+//        String s = "我爱     你";
+//        String s1 = s.replaceAll(" +", ",");
+//        System.out.println(s1);
+
+        String s2 = "spring,linux,java";
+        System.out.println(s2.replace(",","|"));
     }
 }
