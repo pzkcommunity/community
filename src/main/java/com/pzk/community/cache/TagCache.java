@@ -48,7 +48,7 @@ public class TagCache {
         String[] split = tags.split(",");
         ///获取标签库 的标签
         List<TagDto> tagDtoList = get();
-        //标签库 的标签压平 取出 (categotyName,List<tags>)->List<tags>
+        //标签库 的标签压平 取出 List(TagDto)->List<tags>
         List<String> tagList = tagDtoList.stream().flatMap(tag -> tag.getTags().stream()).collect(Collectors.toList());
         //把输入的标签 过滤出不合法的标签
         String invalid = Arrays.stream(split).filter(t -> !tagList.contains(t)).collect(Collectors.joining(","));
