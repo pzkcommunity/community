@@ -29,16 +29,17 @@ public class GitHubProvider {
     /**
      * 获取access_token方法
      * @param code
+     * @param state
      * @return
      */
-    public String getAccessToken(String code) {
+    public String getAccessToken(String code, String state) {
 
 //        MediaType mediaType = MediaType.get("application/json; charset=utf-8");
 
         OkHttpClient client = new OkHttpClient();
  //       RequestBody requestBody = RequestBody.create(mediaType, JSON.toJSONString(accessTokenDto));
         Request request = new Request.Builder()
-                .url("https://github.com/login/oauth/access_token?client_id="+clientId+"&client_secret="+clientSecret+"&code="+code+"&redirect_uri="+redirectUri)
+                .url("https://github.com/login/oauth/access_token?client_id="+clientId+"&client_secret="+clientSecret+"&code="+code+"&redirect_uri="+redirectUri+"&state="+state)
 //                .post(requestBody)
                 .build();
         try (Response response = client.newCall(request).execute()) {

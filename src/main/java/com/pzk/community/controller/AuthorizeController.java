@@ -50,7 +50,7 @@ public class AuthorizeController {
 //        accessTokenDto.setClient_secret(clientSecret);
 //        accessTokenDto.setRedirect_uri(redirectUri);
 //        accessTokenDto.setState(state);
-        String accessToken = gitHubProvider.getAccessToken(code);
+        String accessToken = gitHubProvider.getAccessToken(code,state);
         GitHubUser gitHubUser = gitHubProvider.getUser(accessToken);
 //        System.out.println(gitHubUser.getName());
         //判断是否登陆成功
