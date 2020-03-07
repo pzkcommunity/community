@@ -5,6 +5,8 @@ import com.pzk.community.dto.AccessTokenDto;
 import com.pzk.community.dto.GitHubUser;
 
 import okhttp3.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -15,20 +17,29 @@ import java.io.IOException;
 @Component
 public class GitHubProvider {
 
+    @Value(value="${github.client.id}")
+    private String clientId;
+
+    @Value(value="${github.client.secret}")
+    private String clientSecret;
+
+    @Value(value="${github.redirect.uri}")
+    private String redirectUri;
+
     /**
      * 获取access_token方法
-     * @param accessTokenDto
+     * @param code
      * @return
      */
-    public String getAccessToken(AccessTokenDto accessTokenDto) {
+    public String getAccessToken(String code) {
 
-        MediaType mediaType = MediaType.get("application/json; charset=utf-8");
+//        MediaType mediaType = MediaType.get("application/json; charset=utf-8");
 
         OkHttpClient client = new OkHttpClient();
-        RequestBody requestBody = RequestBody.create(mediaType, JSON.toJSONString(accessTokenDto));
+ //       RequestBody requestBody = RequestBody.create(mediaType, JSON.toJSONString(accessTokenDto));
         Request request = new Request.Builder()
-                .url("https://github.com/login/oauth/access_token")
-                .post(requestBody)
+                .url("https://github.com/login/oauth/access_token?client_id="+clientId+"&client_secret="+clientSecret+"&code="+code+"&redirect_uri="+redirectUri)
+//                .post(requestBody)
                 .build();
         try (Response response = client.newCall(request).execute()) {
             String s = response.body().string();
