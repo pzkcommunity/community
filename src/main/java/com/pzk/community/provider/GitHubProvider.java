@@ -62,8 +62,8 @@ public class GitHubProvider {
                 .url("https://api.github.com/user?access_token=" + accessToken)
                 .build();
 
-        try {
-            Response response = client.newCall(request).execute();
+        try (Response response = client.newCall(request).execute())
+            {
             String s = response.body().string();
             //把 string 的json对象转化为 githubuser类对象
             GitHubUser gitHubUser = JSON.parseObject(s, GitHubUser.class);
