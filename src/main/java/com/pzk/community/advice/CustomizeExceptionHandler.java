@@ -35,6 +35,7 @@ public class CustomizeExceptionHandler {
                 writer.write(JSON.toJSONString(resultDto));
                 writer.close();
             } catch (IOException e1) {
+                //测试版本
             }
             return null;
         } else {
