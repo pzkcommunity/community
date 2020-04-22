@@ -36,6 +36,7 @@ public class CustomizeExceptionHandler {
                 writer.close();
             } catch (IOException e1) {
                 //测试版本
+                //测试版本2
             }
             return null;
         } else {
